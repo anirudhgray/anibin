@@ -1,5 +1,5 @@
 import express from 'express'
-import '../db/mongoose.js'
+import './db/mongoose.js'
 import pasteRouter from './routers/paste.js'
 
 const app = express()
