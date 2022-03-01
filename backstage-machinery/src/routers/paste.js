@@ -28,7 +28,7 @@ router.get("/pastes/:id", async (req, res) => {
     }
 
     if (paste.protected) {
-      return res.status(400).send({ error: "Protected paste!" })
+      return res.status(401).send({ error: "Protected paste!" })
     }
 
     res.status(200).send(paste)
