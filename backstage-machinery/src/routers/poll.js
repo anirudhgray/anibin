@@ -31,6 +31,11 @@ router.get("/polls/:id", async (req, res) => {
       return res.status(401).send({error: "This poll is no longer accepting responses."})
     }
 
+    const existingResponse = await PollResponse.findOne({ip:req.ip, poll:_id})
+    if (existingResponse && poll.singleResponse) {
+      return res.status(401).send({error: "You have already submitted a response."})
+    }
+
     res.status(200).send(poll)
   } catch (e) {
     res.status(500).send(e)
