@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from '../../axios.js';
+
 import { RichTextEditor } from '@mantine/rte';
 import {
   Button,
@@ -7,6 +9,7 @@ import {
   PasswordInput,
   Text,
   Textarea,
+  TextInput,
 } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { Checkbox } from '@mantine/core';
@@ -24,10 +27,28 @@ export default function Pastebin() {
   const [opened, setOpened] = useState(false);
   const [link, createLink] = useState('');
   const [protect, setProtected] = useState(false);
+  const [title, setTitle] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
-    createLink(`https://anibin.com/pastebins/191nx9s292m9`);
-    setOpened(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const pasteObject = {
+      title,
+      content: textValue,
+      language: language.lang,
+      theme: 'purple',
+      protected: protect,
+      password,
+    };
+    console.log(pasteObject);
+    await axios
+      .post('/pastes', pasteObject)
+      .then((res) => {
+        console.log(res);
+        createLink(`https://anibin.com/pastebins/${res.data._id}`);
+        setOpened(true);
+      })
+      .catch((error) => console.log(error));
   };
 
   function strip(html) {
@@ -44,92 +65,108 @@ export default function Pastebin() {
   }, [languageString]);
 
   return (
-    <div className="flex flex-column">
-      <SegmentedControl
-        className="mt-3"
-        fullWidth
-        color="blue"
-        value={languageString}
-        onChange={setLangString}
-        data={[
-          {
-            label: 'RTF',
-            value: '{ "lang": "rtf", "placeholder": "Type something here." }',
-          },
-          {
-            label: 'Python',
-            value: '{ "lang": "py", "placeholder": "print(\'Hello World!\')" }',
-          },
-          {
-            label: 'JavaScript',
-            value: '{ "lang": "js", "placeholder": "console.log(\'Heya!\')" }',
-          },
-          {
-            label: 'C++',
-            value: `{
+    <div>
+      <form className="flex flex-column" onSubmit={handleSubmit}>
+        <SegmentedControl
+          className="mt-3"
+          fullWidth
+          color="blue"
+          value={languageString}
+          onChange={setLangString}
+          data={[
+            {
+              label: 'RTF',
+              value: '{ "lang": "rtf", "placeholder": "Type something here." }',
+            },
+            {
+              label: 'Python',
+              value:
+                '{ "lang": "py", "placeholder": "print(\'Hello World!\')" }',
+            },
+            {
+              label: 'JavaScript',
+              value:
+                '{ "lang": "js", "placeholder": "console.log(\'Heya!\')" }',
+            },
+            {
+              label: 'C++',
+              value: `{
               "lang": "cpp",
               "placeholder": "string greet = 'Hello!';"
             }`,
-          },
-        ]}
-      />
-      {language.lang === 'rtf' ? (
-        <RichTextEditor
-          className="mt-3"
-          sticky={true}
-          value={textValue}
-          onChange={onTextChange}
-          controls={[
-            [
-              'bold',
-              'italic',
-              'underline',
-              'strike',
-              'clean',
-              'h1',
-              'h2',
-              'unorderedList',
-            ],
-            ['alignLeft', 'alignCenter', 'alignRight'],
-            ['codeBlock', 'image', 'video'],
+            },
           ]}
-        ></RichTextEditor>
-      ) : (
-        <Textarea
-          className="mt-3"
-          value={textValue}
-          autosize={true}
-          minRows={3}
-          autoFocus={true}
-          spellCheck={false}
-          onChange={(e) => onTextChange(e.currentTarget.value)}
-        ></Textarea>
-      )}
-      {language.lang !== 'rtf' ? (
-        <Prism language={language.lang}>{`\n${strip(textValue)}`}</Prism>
-      ) : null}
-      <div className="flex mt-3 justify-content-center align-items-center">
-        <Checkbox
-          icon={LockClosedIcon}
-          label={!protect ? 'Password Protection' : null}
-          checked={protect}
-          onChange={(e) => setProtected(e.currentTarget.checked)}
         />
-        {protect ? (
-          <PasswordInput
-            className="ml-3 md:w-4 sm:w-6 w-8"
-            placeholder="Password"
-          />
+        <TextInput
+          required={true}
+          className="mt-3"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.currentTarget.value)}
+          label="Title"
+        ></TextInput>
+        {language.lang === 'rtf' ? (
+          <RichTextEditor
+            className="mt-3"
+            sticky={true}
+            value={textValue}
+            onChange={onTextChange}
+            controls={[
+              [
+                'bold',
+                'italic',
+                'underline',
+                'strike',
+                'clean',
+                'h1',
+                'h2',
+                'unorderedList',
+              ],
+              ['alignLeft', 'alignCenter', 'alignRight'],
+              ['codeBlock', 'image', 'video'],
+            ]}
+          ></RichTextEditor>
+        ) : (
+          <Textarea
+            className="mt-3"
+            value={textValue}
+            autosize={true}
+            minRows={3}
+            autoFocus={true}
+            spellCheck={false}
+            onChange={(e) => onTextChange(e.currentTarget.value)}
+          ></Textarea>
+        )}
+        {language.lang !== 'rtf' ? (
+          <Prism language={language.lang}>{`\n${strip(textValue)}`}</Prism>
         ) : null}
-      </div>
-      <Button
-        className="mt-5 mx-auto"
-        variant="gradient"
-        gradient={{ from: 'grape', to: 'pink', deg: 35 }}
-        onClick={handleSubmit}
-      >
-        Create
-      </Button>
+        <div className="flex mt-3 justify-content-center align-items-center">
+          <Checkbox
+            icon={LockClosedIcon}
+            label={!protect ? 'Password Protection' : null}
+            checked={protect}
+            onChange={(e) => setProtected(e.currentTarget.checked)}
+          />
+          {protect ? (
+            <PasswordInput
+              autoComplete="current=-password"
+              className="ml-3 md:w-4 sm:w-6 w-8"
+              placeholder="Password"
+              required={true}
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+            />
+          ) : null}
+        </div>
+        <Button
+          className="mt-5 mx-auto"
+          variant="gradient"
+          gradient={{ from: 'grape', to: 'pink', deg: 35 }}
+          type="submit"
+        >
+          Create
+        </Button>
+      </form>
 
       <Modal
         centered={true}

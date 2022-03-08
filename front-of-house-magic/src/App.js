@@ -12,6 +12,8 @@ import Pastebin from './components/pastebin/Pastebin';
 import NotFound from './components/misc/NotFound';
 import About from './components/misc/About';
 import Landing from './components/misc/Landing';
+import ViewPaste from './components/pastebin/ViewPaste';
+import Auth from './components/pastebin/Auth';
 
 function App() {
   const [colorScheme, setColorScheme] = useState('dark');
@@ -45,6 +47,16 @@ function App() {
                     />
                     <Route exact path="/about" element={<About />} />
                     <Route exact path="/" element={<Landing />} />
+                    <Route
+                      exact
+                      path="/pastebins/:id"
+                      element={<ViewPaste />}
+                    />
+                    <Route
+                      exact
+                      path="/pastebins/:id/authorise"
+                      element={<Auth />}
+                    />
                   </Routes>
                 </Container>
               </div>

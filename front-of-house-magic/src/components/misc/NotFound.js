@@ -12,7 +12,7 @@ export default function NotFound() {
     setButtonText(choices[index].buttonText);
   }
 
-  const choices = [
+  const [choices] = useState([
     {
       title: 'Move along, move along.',
       buttonText: 'Back out through the blast doors.',
@@ -31,11 +31,11 @@ export default function NotFound() {
       title: 'Your internet is full.',
       buttonText: "That's what Wally told me.",
     },
-  ];
+  ]);
 
   useEffect(() => {
     choose(choices);
-  }, []);
+  }, [choices]);
 
   return (
     <div className="flex flex-column align-items-center">

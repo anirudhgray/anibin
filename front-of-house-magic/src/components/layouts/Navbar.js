@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Container, Title, MediaQuery, Badge } from '@mantine/core';
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { SunIcon, MoonIcon, GitHubLogoIcon } from '@modulz/radix-icons';
 
 import PollPasteTabs from './PollPasteTabs';
+import axios from '../../axios.js';
 
 export default function Navbar() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
+  const [count, setCount] = useState(0);
+
+  useEffect(async () => {
+    await axios
+      .get('/count/pastes')
+      .then((res) => {
+        setCount(res.data.count);
+      })
+      .catch((e) => console.log(e));
+  }, [count]);
 
   return (
     <Container className="pt-3 pb-6">
@@ -17,7 +28,7 @@ export default function Navbar() {
           <Title className="pb-1" order={1}>
             anibin.
           </Title>
-          <Badge color="lime">32 pastebins made!</Badge>
+          <Badge color="lime">{count} pastebins made!</Badge>
         </div>
         <MediaQuery smallerThan="xs" styles={{ display: 'none' }}>
           <div className="sm:col-6">
@@ -29,7 +40,7 @@ export default function Navbar() {
             <ActionIcon
               component="a"
               target="_blank"
-              href="https://github.com/anirudhgray"
+              href="https://github.com/anirudhgray/anibin"
               variant="outline"
               radius="lg"
               size="lg"
