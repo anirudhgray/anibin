@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Card, Title, PasswordInput, Button } from '@mantine/core';
+import {
+  Card,
+  Title,
+  PasswordInput,
+  Button,
+  Loader,
+  Text,
+} from '@mantine/core';
 import { LockClosedIcon } from '@modulz/radix-icons';
 
 import PasteCard from './PasteCard.js';
@@ -12,9 +19,11 @@ export default function Auth() {
   const [password, setPassword] = useState('');
   const [invalid, setInvalid] = useState(false);
   const [response, setResponse] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     await axios
       .get(`/pastes/${id}/protected`, {
         headers: {
@@ -23,11 +32,13 @@ export default function Auth() {
       })
       .then((res) => {
         setResponse(res.data);
+        setLoading(false);
         console.log(res);
       })
       .catch((e) => {
         if (e.response.status === 400) {
           setInvalid(true);
+          setLoading(false);
         }
         console.log(e);
       });
@@ -64,7 +75,7 @@ export default function Auth() {
               onChange={(e) => setPassword(e.currentTarget.value)}
             ></PasswordInput>
             <Button className="mx-auto" type="submit" variant="subtle">
-              Proceed
+              {!loading ? <Text>Proceed</Text> : <Loader size="sm"></Loader>}
             </Button>
           </form>
         </Card>

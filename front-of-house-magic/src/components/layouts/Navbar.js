@@ -6,6 +6,7 @@ import { SunIcon, MoonIcon, GitHubLogoIcon } from '@modulz/radix-icons';
 
 import PollPasteTabs from './PollPasteTabs';
 import axios from '../../axios.js';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
@@ -24,13 +25,24 @@ export default function Navbar() {
   return (
     <Container className="pt-3 pb-6">
       <div className="grid align-items-center">
-        <div className="sm:col-3 col-6">
-          <Title className="pb-1" order={1}>
+        <div className="sm:col-3 col-6 flex flex-column">
+          <Title
+            style={{ textDecoration: 'none' }}
+            component={Link}
+            to="/"
+            className="pb-1"
+            order={1}
+          >
             anibin.
           </Title>
-          <Badge color="lime">{count} pastebins made!</Badge>
+          <Badge className="max-w-min" color="lime">
+            {count} pastes made!
+          </Badge>
         </div>
-        <MediaQuery smallerThan="xs" styles={{ display: 'none' }}>
+        <MediaQuery
+          smallerThan="xs"
+          styles={{ display: 'none', marginTop: 50 }}
+        >
           <div className="sm:col-6">
             <PollPasteTabs></PollPasteTabs>
           </div>

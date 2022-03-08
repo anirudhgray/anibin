@@ -10,6 +10,8 @@ import {
   Text,
   Textarea,
   TextInput,
+  Title,
+  Loader,
 } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { Checkbox } from '@mantine/core';
@@ -29,8 +31,10 @@ export default function Pastebin() {
   const [protect, setProtected] = useState(false);
   const [title, setTitle] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const pasteObject = {
       title,
@@ -45,10 +49,14 @@ export default function Pastebin() {
       .post('/pastes', pasteObject)
       .then((res) => {
         console.log(res);
-        createLink(`https://anibin.com/pastebins/${res.data._id}`);
+        createLink(`http://localhost:3000/pastebins/${res.data._id}`);
+        setLoading(false);
         setOpened(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
   };
 
   function strip(html) {
@@ -67,6 +75,7 @@ export default function Pastebin() {
   return (
     <div>
       <form className="flex flex-column" onSubmit={handleSubmit}>
+        <Title order={3}>New Paste</Title>
         <SegmentedControl
           className="mt-3"
           fullWidth
@@ -164,7 +173,11 @@ export default function Pastebin() {
           gradient={{ from: 'grape', to: 'pink', deg: 35 }}
           type="submit"
         >
-          Create
+          {!loading ? (
+            <Text>Proceed</Text>
+          ) : (
+            <Loader color="white" size="sm"></Loader>
+          )}
         </Button>
       </form>
 

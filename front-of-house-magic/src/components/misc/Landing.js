@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Landing() {
-  return <div>Landing</div>;
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate('/create/pastebin');
+  });
+  return null;
 }

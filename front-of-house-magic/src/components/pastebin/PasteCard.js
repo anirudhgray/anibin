@@ -2,14 +2,21 @@ import React from 'react';
 import { Card, Title, Text } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import RichTextEditor from '@mantine/rte';
+import dayjs from 'dayjs';
 
 export default function PasteCard({ data }) {
+  const getDate = (dateString) => {
+    let d = new Date(dateString);
+    let day = dayjs(d);
+    return day.format('HH:mm on DD/MM/YYYY');
+  };
+
   return (
     <div className="w-12">
       <Card shadow="md">
         <Title>{data.title}</Title>
         <Text color="gray">
-          Created At: {new Date(data.createdAt).toString()}
+          Created at <strong>{getDate(data.createdAt)}</strong>
         </Text>
         {data.language === 'rtf' ? (
           <RichTextEditor
