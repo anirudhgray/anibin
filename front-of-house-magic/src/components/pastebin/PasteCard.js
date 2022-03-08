@@ -13,6 +13,9 @@ export default function PasteCard({ data }) {
 
   return (
     <div className="w-12">
+      <Title className="mb-3" order={3}>
+        Paste
+      </Title>
       <Card shadow="md">
         <Title>{data.title}</Title>
         <Text color="gray">

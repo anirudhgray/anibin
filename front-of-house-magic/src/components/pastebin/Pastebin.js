@@ -44,11 +44,9 @@ export default function Pastebin() {
       protected: protect,
       password,
     };
-    console.log(pasteObject);
     await axios
       .post('/pastes', pasteObject)
       .then((res) => {
-        console.log(res);
         createLink(`http://localhost:3000/pastebins/${res.data._id}`);
         setLoading(false);
         setOpened(true);
@@ -169,8 +167,8 @@ export default function Pastebin() {
         </div>
         <Button
           className="mt-5 mx-auto"
-          variant="gradient"
-          gradient={{ from: 'grape', to: 'pink', deg: 35 }}
+          variant="filled"
+          color="grape"
           type="submit"
         >
           {!loading ? (

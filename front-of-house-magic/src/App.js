@@ -14,6 +14,7 @@ import About from './components/misc/About';
 import Landing from './components/misc/Landing';
 import ViewPaste from './components/pastebin/ViewPaste';
 import Auth from './components/pastebin/Auth';
+import ViewPoll from './components/poll/ViewPoll';
 
 function App() {
   const [colorScheme, setColorScheme] = useState('dark');
@@ -57,6 +58,7 @@ function App() {
                       path="/pastebins/:id/authorise"
                       element={<Auth />}
                     />
+                    <Route exact path="/polls/:id" element={<ViewPoll />} />
                   </Routes>
                 </Container>
               </div>

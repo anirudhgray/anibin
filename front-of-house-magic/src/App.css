@@ -5,3 +5,8 @@ body,
   height: 100%;
   margin: 0;
 }
+
+.aboutLink {
+  text-decoration: none;
+  color: rgb(180, 54, 180);
+}

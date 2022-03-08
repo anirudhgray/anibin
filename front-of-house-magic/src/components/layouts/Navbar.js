@@ -11,16 +11,18 @@ import { Link } from 'react-router-dom';
 export default function Navbar() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const dark = colorScheme === 'dark';
-  const [count, setCount] = useState(0);
+  const [pollCount, setPollCount] = useState(0);
+  const [pasteCount, setPasteCount] = useState(0);
 
   useEffect(async () => {
     await axios
-      .get('/count/pastes')
+      .get('/counts')
       .then((res) => {
-        setCount(res.data.count);
+        setPollCount(res.data.pollCount);
+        setPasteCount(res.data.pasteCount);
       })
       .catch((e) => console.log(e));
-  }, [count]);
+  }, [pollCount, pasteCount]);
 
   return (
     <Container className="pt-3 pb-6">
@@ -36,7 +38,7 @@ export default function Navbar() {
             anibin.
           </Title>
           <Badge className="max-w-min" color="lime">
-            {count} pastes made!
+            ({pasteCount} + {pollCount}) pastes/polls made!
           </Badge>
         </div>
         <MediaQuery

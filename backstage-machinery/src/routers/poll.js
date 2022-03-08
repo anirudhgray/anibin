@@ -19,6 +19,9 @@ router.post('/polls', async (req, res) => {
 
 router.get('/polls/:id', async (req, res) => {
   const _id = req.params.id;
+  if (_id.length !== 24) {
+    return res.status(404).send();
+  }
 
   try {
     const poll = await Poll.findOne({ _id });
@@ -51,6 +54,10 @@ router.get('/polls/:id', async (req, res) => {
 
 router.post('/polls/:id/responses', async (req, res) => {
   const _id = req.params.id;
+  if (_id.length !== 24) {
+    return res.status(404).send();
+  }
+
   try {
     const poll = await Poll.findOne({ _id });
 

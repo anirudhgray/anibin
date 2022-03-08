@@ -66,9 +66,4 @@ router.get('/pastes/:id/protected', async (req, res) => {
   }
 });
 
-router.get('/count/pastes', async (req, res) => {
-  const count = await Paste.countDocuments();
-  return res.status(200).send({ count });
-});
-
 export default router;
