@@ -40,11 +40,7 @@ router.get('/polls/:id', async (req, res) => {
       ip: req.ip,
       poll: _id,
     });
-    if (
-      existingResponse &&
-      poll.singleResponse &&
-      existingResponse.ip !== '::1'
-    ) {
+    if (existingResponse && poll.singleResponse) {
       return res
         .status(401)
         .send({ error: 'You have already submitted a response.' });
@@ -83,11 +79,7 @@ router.post('/polls/:id/responses', async (req, res) => {
       ip: req.ip,
       poll: _id,
     });
-    if (
-      existingResponse &&
-      poll.singleResponse &&
-      existingResponse.ip !== '::1'
-    ) {
+    if (existingResponse && poll.singleResponse) {
       return res
         .status(401)
         .send({ error: 'You have already submitted a response.' });
