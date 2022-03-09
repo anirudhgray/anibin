@@ -77,7 +77,7 @@ export default function Poll() {
     await axios
       .post('/polls', pollObj)
       .then((res) => {
-        setLink(`https://anibin.herokuapp.com/polls/${res.data._id}`);
+        setLink(`https://anibin.netlify.com/polls/${res.data._id}`);
         setLoading(false);
         setOpened(true);
       })
