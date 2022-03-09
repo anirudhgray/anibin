@@ -108,7 +108,17 @@ export default function PollResponses() {
             {statElements}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div>
+          <Skeleton height={50} className="w-5 mb-3"></Skeleton>
+          <Skeleton height={20} className="w-3 mb-3"></Skeleton>
+          <Skeleton height={100} className="w-12 mb-3"></Skeleton>
+          <div className="flex justify-content-between">
+            <Skeleton height={70} circle className="mb-3"></Skeleton>
+            <Skeleton height={70} className="w-10 mb-3"></Skeleton>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
