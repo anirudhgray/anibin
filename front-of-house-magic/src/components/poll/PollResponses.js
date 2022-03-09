@@ -8,6 +8,7 @@ import {
   useMantineTheme,
   useMantineColorScheme,
   Button,
+  Skeleton,
 } from '@mantine/core';
 
 import axios from '../../axios.js';
