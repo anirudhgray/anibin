@@ -1,5 +1,6 @@
 import './App.css';
 import './bodybg.css';
+import '/node_modules/primeflex/primeflex.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 
