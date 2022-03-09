@@ -15,6 +15,7 @@ import Landing from './components/misc/Landing';
 import ViewPaste from './components/pastebin/ViewPaste';
 import Auth from './components/pastebin/Auth';
 import ViewPoll from './components/poll/ViewPoll';
+import PollResponses from './components/poll/PollResponses';
 
 function App() {
   const [colorScheme, setColorScheme] = useState('dark');
@@ -59,6 +60,11 @@ function App() {
                       element={<Auth />}
                     />
                     <Route exact path="/polls/:id" element={<ViewPoll />} />
+                    <Route
+                      exact
+                      path="/polls/:id/responses"
+                      element={<PollResponses />}
+                    />
                   </Routes>
                 </Container>
               </div>

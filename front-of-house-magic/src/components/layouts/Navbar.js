@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Title, MediaQuery, Badge } from '@mantine/core';
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { SunIcon, MoonIcon, GitHubLogoIcon } from '@modulz/radix-icons';
+import { useHotkeys } from '@mantine/hooks';
 
 import PollPasteTabs from './PollPasteTabs';
 import axios from '../../axios.js';
@@ -13,6 +14,8 @@ export default function Navbar() {
   const dark = colorScheme === 'dark';
   const [pollCount, setPollCount] = useState(0);
   const [pasteCount, setPasteCount] = useState(0);
+
+  useHotkeys([['mod+J', () => toggleColorScheme()]]);
 
   useEffect(async () => {
     await axios
@@ -84,45 +87,6 @@ export default function Navbar() {
           </div>
         </MediaQuery>
       </div>
-      {/* <Grid className="align-items-center">
-        <Grid.Col span={6} xs={3}>
-          <Title className="pb-1" order={1}>
-            anibin.
-          </Title>
-        </Grid.Col>
-        <Grid.Col xs={6}>
-          <PollPasteTabs></PollPasteTabs>
-        </Grid.Col>
-        <Grid.Col span={6} xs={3}>
-          <div className="w-min ml-auto flex" style={{ gap: '0.5rem' }}>
-            <ActionIcon
-              component="a"
-              target="_blank"
-              href="https://github.com/anirudhgray"
-              variant="outline"
-              radius="lg"
-              size="lg"
-              title="Github"
-            >
-              <GitHubLogoIcon style={{ width: 18, height: 18 }} />
-            </ActionIcon>
-            <ActionIcon
-              variant="filled"
-              radius="lg"
-              size="lg"
-              color={dark ? 'yellow' : 'blue'}
-              onClick={() => toggleColorScheme()}
-              title="Toggle color scheme"
-            >
-              {dark ? (
-                <SunIcon style={{ width: 18, height: 18 }} />
-              ) : (
-                <MoonIcon style={{ width: 18, height: 18 }} />
-              )}
-            </ActionIcon>
-          </div>
-        </Grid.Col>
-      </Grid> */}
     </Container>
   );
 }

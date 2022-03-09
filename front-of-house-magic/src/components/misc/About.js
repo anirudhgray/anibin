@@ -1,7 +1,6 @@
 import React from 'react';
-import { Title, Text, Button, List } from '@mantine/core';
+import { Title, Text, Button, Kbd } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { RocketIcon } from '@modulz/radix-icons';
 
 export default function About() {
   return (
@@ -18,11 +17,14 @@ export default function About() {
         </Button>{' '}
         (with syntax highlighting for multiple languages).
       </Text>
-      <Text className="mt-3 mb-6">
+      <Text className="my-3">
         Built using Node.js, React.js, MongoDb and Mantine.
       </Text>
+      <Text className="mb-6">
+        <Kbd>Ctrl</Kbd> + <Kbd>J</Kbd> to toggle dark mode.
+      </Text>
       <Title order={4}>Sitemap</Title>
-      <div className="mt-3 flex flex-column w-min" style={{ gap: '1rem' }}>
+      <div className="mt-3 mb-6 flex flex-column w-min" style={{ gap: '1rem' }}>
         <Link className="aboutLink" to="/create/pastebin">
           /create/pastebin
         </Link>
@@ -39,6 +41,10 @@ export default function About() {
           /about
         </Link>
       </div>
+      <Title className="mb-3" order={4}>
+        API
+      </Title>
+      <Text>Root: herokuapp url</Text>
     </div>
   );
 }

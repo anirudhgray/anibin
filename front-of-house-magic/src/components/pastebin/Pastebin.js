@@ -74,8 +74,10 @@ export default function Pastebin() {
     <div>
       <form className="flex flex-column" onSubmit={handleSubmit}>
         <Title order={3}>New Paste</Title>
+        <label htmlFor="langs">Language</label>
         <SegmentedControl
           className="mt-3"
+          size="md"
           fullWidth
           color="blue"
           value={languageString}
@@ -172,7 +174,7 @@ export default function Pastebin() {
           type="submit"
         >
           {!loading ? (
-            <Text>Proceed</Text>
+            <Text>Create</Text>
           ) : (
             <Loader color="white" size="sm"></Loader>
           )}

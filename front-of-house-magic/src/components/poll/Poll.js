@@ -14,6 +14,7 @@ import { Prism } from '@mantine/prism';
 import { CrossCircledIcon } from '@modulz/radix-icons';
 
 import axios from '../../axios.js';
+import { Link } from 'react-router-dom';
 
 export default function Poll() {
   const [question, setQuestion] = useState('');
@@ -21,7 +22,7 @@ export default function Poll() {
   const [options, setOptions] = useState(['', '']);
   const [mcq, setMcq] = useState(true);
   const [theme, setTheme] = useState('purple');
-  const [singleResponse, setSingleResponse] = useState(false);
+  const [singleResponse, setSingleResponse] = useState(true);
 
   const [count, setCount] = useState(2);
   const [loading, setLoading] = useState(false);
@@ -144,9 +145,9 @@ export default function Poll() {
         </Button>
         <Checkbox
           className="mx-auto"
-          label="Single Response Only"
-          checked={singleResponse}
-          onChange={(e) => setSingleResponse(e.currentTarget.checked)}
+          label="Allow Multiple Responses?"
+          checked={!singleResponse}
+          onChange={(e) => setSingleResponse(!e.currentTarget.checked)}
         />
         <Button
           className="mt-5 mx-auto"
@@ -156,7 +157,7 @@ export default function Poll() {
           disabled={count <= 1}
         >
           {!loading ? (
-            <Text>Proceed</Text>
+            <Text>Create</Text>
           ) : (
             <Loader color="white" size="sm"></Loader>
           )}
