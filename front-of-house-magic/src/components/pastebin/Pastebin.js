@@ -47,7 +47,7 @@ export default function Pastebin() {
     await axios
       .post('/pastes', pasteObject)
       .then((res) => {
-        createLink(`http://localhost:3000/pastebins/${res.data._id}`);
+        createLink(`https://anibin.herokuapp.com/pastebins/${res.data._id}`);
         setLoading(false);
         setOpened(true);
       })
