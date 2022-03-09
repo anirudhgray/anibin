@@ -6,7 +6,7 @@ import Paste from './models/paste.js';
 import Poll from './models/poll.js';
 
 const app = express();
-const port = process.env.port;
+const port = process.env.PORT;
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', [
