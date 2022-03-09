@@ -9,7 +9,10 @@ const app = express();
 const port = process.env.port;
 
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', [
+    'http://localhost:3000',
+    'https://anibin.netlify.app',
+  ]);
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
