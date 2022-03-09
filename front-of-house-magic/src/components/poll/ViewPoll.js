@@ -75,6 +75,9 @@ export default function ViewPoll() {
         setOpened(true);
       })
       .catch((error) => {
+        if (e.response.status === 401) {
+          return navigate(`/polls/${id}/responses`);
+        }
         setSending(false);
         console.log(error);
       });

@@ -18,6 +18,14 @@ router.post('/polls', async (req, res) => {
 });
 
 router.get('/polls/:id', async (req, res) => {
+  var ipAddr = req.headers['x-forwarded-for'];
+  if (ipAddr) {
+    var list = ipAddr.split(',');
+    ipAddr = list[list.length - 1];
+  } else {
+    ipAddr = req.socket.remoteAddress;
+  }
+
   const _id = req.params.id;
   if (_id.length !== 24) {
     return res.status(404).send();
@@ -37,7 +45,7 @@ router.get('/polls/:id', async (req, res) => {
     }
 
     const existingResponse = await PollResponse.findOne({
-      ip: req.ip,
+      ip: ipAddr,
       poll: _id,
     });
     if (existingResponse && poll.singleResponse) {
@@ -53,6 +61,14 @@ router.get('/polls/:id', async (req, res) => {
 });
 
 router.post('/polls/:id/responses', async (req, res) => {
+  var ipAddr = req.headers['x-forwarded-for'];
+  if (ipAddr) {
+    var list = ipAddr.split(',');
+    ipAddr = list[list.length - 1];
+  } else {
+    ipAddr = req.socket.remoteAddress;
+  }
+
   const _id = req.params.id;
   if (_id.length !== 24) {
     return res.status(404).send();
@@ -76,7 +92,7 @@ router.post('/polls/:id/responses', async (req, res) => {
     }
 
     const existingResponse = await PollResponse.findOne({
-      ip: req.ip,
+      ip: ipAddr,
       poll: _id,
     });
     if (existingResponse && poll.singleResponse) {
@@ -88,7 +104,7 @@ router.post('/polls/:id/responses', async (req, res) => {
     const pollResponse = new PollResponse({
       ...req.body,
       poll: _id,
-      ip: req.ip,
+      ip: ipAddr,
     });
 
     await pollResponse.save();
